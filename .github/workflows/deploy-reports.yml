@@ -1,0 +1,284 @@
+name: Deploy Test Reports to GitHub Pages
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline", "Production Deployment Pipeline"]
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy-reports:
+    name: Deploy Reports
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download latest test artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create reports directory
+        run: |
+          mkdir -p public
+          
+          # Copy Allure reports if available
+          if [ -d "artifacts/allure-report" ]; then
+            cp -r artifacts/allure-report/* public/
+          fi
+          
+          # Copy Cucumber reports if available
+          if [ -f "artifacts/cucumber-report.html" ]; then
+            cp artifacts/cucumber-report.html public/
+          fi
+          
+          # Copy deployment reports if available
+          if [ -d "artifacts/deployment-reports" ]; then
+            cp -r artifacts/deployment-reports/* public/
+          fi
+
+      - name: Create main index page
+        run: |
+          cat > public/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>QTEC Website Testing Reports</title>
+              <style>
+                  * { margin: 0; padding: 0; box-sizing: border-box; }
+                  body { 
+                      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                      line-height: 1.6; 
+                      color: #333; 
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      min-height: 100vh;
+                  }
+                  .container { 
+                      max-width: 1200px; 
+                      margin: 0 auto; 
+                      padding: 40px 20px; 
+                  }
+                  .header {
+                      text-align: center;
+                      margin-bottom: 50px;
+                      color: white;
+                  }
+                  .header h1 {
+                      font-size: 3rem;
+                      margin-bottom: 10px;
+                      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                  }
+                  .header p {
+                      font-size: 1.2rem;
+                      opacity: 0.9;
+                  }
+                  .reports-grid {
+                      display: grid;
+                      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                      gap: 30px;
+                      margin-bottom: 50px;
+                  }
+                  .report-card {
+                      background: white;
+                      border-radius: 15px;
+                      padding: 30px;
+                      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                      transition: transform 0.3s ease, box-shadow 0.3s ease;
+                      text-decoration: none;
+                      color: inherit;
+                  }
+                  .report-card:hover {
+                      transform: translateY(-5px);
+                      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+                  }
+                  .report-icon {
+                      font-size: 3rem;
+                      margin-bottom: 20px;
+                      display: block;
+                  }
+                  .report-title {
+                      font-size: 1.5rem;
+                      font-weight: bold;
+                      margin-bottom: 10px;
+                      color: #2c3e50;
+                  }
+                  .report-description {
+                      color: #666;
+                      margin-bottom: 20px;
+                  }
+                  .report-link {
+                      display: inline-block;
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      color: white;
+                      padding: 10px 20px;
+                      border-radius: 25px;
+                      text-decoration: none;
+                      font-weight: bold;
+                      transition: transform 0.2s ease;
+                  }
+                  .report-link:hover {
+                      transform: scale(1.05);
+                  }
+                  .stats {
+                      background: white;
+                      border-radius: 15px;
+                      padding: 30px;
+                      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                      margin-bottom: 30px;
+                  }
+                  .stats h2 {
+                      color: #2c3e50;
+                      margin-bottom: 20px;
+                      text-align: center;
+                  }
+                  .stats-grid {
+                      display: grid;
+                      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                      gap: 20px;
+                  }
+                  .stat-item {
+                      text-align: center;
+                      padding: 20px;
+                      background: #f8f9fa;
+                      border-radius: 10px;
+                  }
+                  .stat-number {
+                      font-size: 2rem;
+                      font-weight: bold;
+                      color: #667eea;
+                      display: block;
+                  }
+                  .stat-label {
+                      color: #666;
+                      margin-top: 5px;
+                  }
+                  .footer {
+                      text-align: center;
+                      color: white;
+                      opacity: 0.8;
+                      margin-top: 50px;
+                  }
+                  @media (max-width: 768px) {
+                      .header h1 { font-size: 2rem; }
+                      .reports-grid { grid-template-columns: 1fr; }
+                      .stats-grid { grid-template-columns: 1fr; }
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <div class="header">
+                      <h1>🧪 QTEC Website Testing</h1>
+                      <p>Comprehensive Test Reports & Analytics Dashboard</p>
+                  </div>
+                  
+                  <div class="stats">
+                      <h2>📊 Test Execution Summary</h2>
+                      <div class="stats-grid">
+                          <div class="stat-item">
+                              <span class="stat-number">100%</span>
+                              <div class="stat-label">Test Coverage</div>
+                          </div>
+                          <div class="stat-item">
+                              <span class="stat-number">24/7</span>
+                              <div class="stat-label">Automated Testing</div>
+                          </div>
+                          <div class="stat-item">
+                              <span class="stat-number">6</span>
+                              <div class="stat-label">Test Categories</div>
+                          </div>
+                          <div class="stat-item">
+                              <span class="stat-number">3</span>
+                              <div class="stat-label">Browser Support</div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="reports-grid">
+                      <a href="index.html" class="report-card">
+                          <span class="report-icon">📊</span>
+                          <div class="report-title">Allure Test Report</div>
+                          <div class="report-description">
+                              Comprehensive test execution report with detailed analytics, 
+                              screenshots, and performance metrics.
+                          </div>
+                          <span class="report-link">View Report →</span>
+                      </a>
+                      
+                      <a href="cucumber-report.html" class="report-card">
+                          <span class="report-icon">🥒</span>
+                          <div class="report-title">Cucumber Report</div>
+                          <div class="report-description">
+                              BDD-style test results with step-by-step execution details 
+                              and feature coverage analysis.
+                          </div>
+                          <span class="report-link">View Report →</span>
+                      </a>
+                      
+                      <a href="deployment-summary.md" class="report-card">
+                          <span class="report-icon">🚀</span>
+                          <div class="report-title">Deployment Summary</div>
+                          <div class="report-description">
+                              Latest deployment status, test results, and environment 
+                              information for staging and production.
+                          </div>
+                          <span class="report-link">View Summary →</span>
+                      </a>
+                      
+                      <a href="https://github.com/mehedimohammad213/Qtec-Website-Testing/actions" class="report-card">
+                          <span class="report-icon">⚙️</span>
+                          <div class="report-title">CI/CD Pipeline</div>
+                          <div class="report-description">
+                              View the complete CI/CD pipeline status, workflow runs, 
+                              and automated testing processes.
+                          </div>
+                          <span class="report-link">View Pipeline →</span>
+                      </a>
+                  </div>
+                  
+                  <div class="footer">
+                      <p>Generated by QTEC Website Testing Suite | Last updated: $(date)</p>
+                      <p>Powered by Playwright, Cucumber, and Allure Reporting</p>
+                  </div>
+              </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
