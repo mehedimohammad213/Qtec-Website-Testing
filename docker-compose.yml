@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  qtec-testing:
+    build: .
+    container_name: qtec-testing
+    volumes:
+      - ./test-results:/app/test-results
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+      - ./cucumber-report.html:/app/cucumber-report.html
+      - ./cucumber-report.json:/app/cucumber-report.json
+    environment:
+      - NODE_ENV=production
+      - CI=true
+      - QTEC_URL=https://qtecsolution.com
+    ports:
+      - "8080:8080"
+    command: npm run test:smoke
+
+  qtec-testing-all:
+    build: .
+    container_name: qtec-testing-all
+    volumes:
+      - ./test-results:/app/test-results
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+      - ./cucumber-report.html:/app/cucumber-report.html
+      - ./cucumber-report.json:/app/cucumber-report.json
+    environment:
+      - NODE_ENV=production
+      - CI=true
+      - QTEC_URL=https://qtecsolution.com
+    command: npm run test:all
+
+  qtec-testing-functional:
+    build: .
+    container_name: qtec-testing-functional
+    volumes:
+      - ./test-results:/app/test-results
+      - ./allure-results:/app/allure-results
+      - ./allure-report:/app/allure-report
+      - ./cucumber-report.html:/app/cucumber-report.html
+      - ./cucumber-report.json:/app/cucumber-report.json
+    environment:
+      - NODE_ENV=production
+      - CI=true
+      - QTEC_URL=https://qtecsolution.com
+    command: npm run test:functional
+
+  allure-report:
+    build: .
+    container_name: allure-report-server
+    volumes:
+      - ./allure-report:/app/allure-report
+    ports:
+      - "8080:8080"
+    command: npx allure serve allure-results --host 0.0.0.0 --port 8080

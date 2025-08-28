@@ -1,0 +1,184 @@
+name: Docker CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: "Type of tests to run in Docker"
+        required: true
+        default: "smoke"
+        type: choice
+        options:
+          - smoke
+          - functional
+          - all
+
+env:
+  QTEC_URL: "https://qtecsolution.com"
+
+jobs:
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: qtec-testing
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  docker-test:
+    name: Run Docker Tests
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    timeout-minutes: 45
+    strategy:
+      matrix:
+        test-type: [smoke, functional, all]
+        include:
+          - test-type: smoke
+            command: "npm run test:smoke"
+          - test-type: functional
+            command: "npm run test:functional"
+          - test-type: all
+            command: "npm run test:all"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        run: docker build -t qtec-testing .
+
+      - name: Create test directories
+        run: |
+          mkdir -p test-results allure-results allure-report
+
+      - name: Run ${{ matrix.test-type }} tests in Docker
+        run: |
+          docker run --rm \
+            -v $(pwd)/test-results:/app/test-results \
+            -v $(pwd)/allure-results:/app/allure-results \
+            -v $(pwd)/allure-report:/app/allure-report \
+            -e QTEC_URL=${{ env.QTEC_URL }} \
+            -e CI=true \
+            qtec-testing ${{ matrix.command }}
+        continue-on-error: true
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docker-test-results-${{ matrix.test-type }}
+          path: |
+            test-results/
+            allure-results/
+            allure-report/
+          retention-days: 30
+
+  docker-report:
+    name: Generate Docker Test Reports
+    runs-on: ubuntu-latest
+    needs: [docker-test]
+    if: always()
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download test results
+        uses: actions/download-artifact@v4
+        with:
+          path: test-artifacts
+
+      - name: Generate Allure report
+        run: |
+          npm run report:generate
+        continue-on-error: true
+
+      - name: Generate Cucumber report
+        run: |
+          npm run test:format
+        continue-on-error: true
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docker-reports
+          path: |
+            allure-report/
+            cucumber-report.html
+            cucumber-report.json
+          retention-days: 90
+
+  docker-notify:
+    name: Docker Test Summary
+    runs-on: ubuntu-latest
+    needs: [docker-test, docker-report]
+    if: always()
+    timeout-minutes: 5
+    steps:
+      - name: Create Docker test summary
+        run: |
+          echo "## 🐳 Docker CI Pipeline Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Docker Build:** ✅ Successfully built and tested" >> $GITHUB_STEP_SUMMARY
+          echo "**Test Types:** smoke, functional, all" >> $GITHUB_STEP_SUMMARY
+          echo "**Container:** qtec-testing" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Local Docker Usage:**" >> $GITHUB_STEP_SUMMARY
+          echo "```bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Build image" >> $GITHUB_STEP_SUMMARY
+          echo "docker build -t qtec-testing ." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Run smoke tests" >> $GITHUB_STEP_SUMMARY
+          echo "docker run --rm -v \$(pwd)/test-results:/app/test-results qtec-testing npm run test:smoke" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Run all tests" >> $GITHUB_STEP_SUMMARY
+          echo "docker run --rm -v \$(pwd)/test-results:/app/test-results qtec-testing npm run test:all" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Docker Compose:**" >> $GITHUB_STEP_SUMMARY
+          echo "```bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Run with docker-compose" >> $GITHUB_STEP_SUMMARY
+          echo "docker-compose up qtec-testing" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY

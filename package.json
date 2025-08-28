@@ -35,10 +35,13 @@
     "test:dry-run": "cucumber-js --dry-run",
     "test:format": "cucumber-js --format summary --format html:cucumber-report.html",
     "test:ci": "cucumber-js --format json:cucumber-report.json --format html:cucumber-report.html",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
+    "lint": "eslint src/**/*.ts --ext .ts",
+    "lint:fix": "eslint src/**/*.ts --ext .ts --fix",
     "type-check": "tsc --noEmit",
-    "clean": "rimraf test-results allure-results allure-report cucumber-report.html cucumber-report.json"
+    "clean": "rimraf test-results allure-results allure-report cucumber-report.html cucumber-report.json",
+    "docker:build": "docker build -t qtec-testing .",
+    "docker:run": "docker run --rm -v $(pwd)/test-results:/app/test-results -v $(pwd)/allure-results:/app/allure-results qtec-testing",
+    "docker:test": "docker run --rm -v $(pwd)/test-results:/app/test-results -v $(pwd)/allure-results:/app/allure-results qtec-testing npm run test:smoke"
   },
   "keywords": [
     "playwright",
@@ -60,15 +63,17 @@
     "@cucumber/cucumber": "^10.0.1",
     "@playwright/test": "^1.40.0",
     "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "allure-commandline": "^2.24.1",
     "allure-cucumberjs": "^2.9.0",
     "dotenv": "^16.6.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.3.2",
     "eslint": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "rimraf": "^5.0.0"
+    "lighthouse": "^12.8.1",
+    "puppeteer-core": "^24.17.1",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
   },
   "dependencies": {
     "allure-playwright": "^3.3.3",

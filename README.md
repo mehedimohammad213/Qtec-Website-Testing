@@ -17,10 +17,10 @@ This testing suite provides comprehensive coverage for:
 
 ### Prerequisites
 
-- Node.js (>= 16.0.0)
-- npm (>= 8.0.0)
+- Node.js (>= 16.0.0) OR Docker
+- npm (>= 8.0.0) (if not using Docker)
 
-### Installation
+### Option 1: Local Installation
 
 ```bash
 # Clone the repository
@@ -32,6 +32,39 @@ npm install
 
 # Install Playwright browsers
 npm run install:browsers
+```
+
+### Option 2: Docker (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/qtec-website-testing.git
+cd qtec-website-testing
+
+# Build Docker image
+docker build -t qtec-testing .
+
+# Run smoke tests
+docker run --rm qtec-testing npm run test:smoke
+
+# Run with volume mounting (recommended)
+docker run --rm \
+  -v $(pwd)/test-results:/app/test-results \
+  -v $(pwd)/allure-results:/app/allure-results \
+  qtec-testing npm run test:smoke
+```
+
+### Option 3: Docker Compose
+
+```bash
+# Run smoke tests
+docker-compose up qtec-testing
+
+# Run all tests
+docker-compose up qtec-testing-all
+
+# Run Allure report server
+docker-compose up allure-report
 ```
 
 ### Running Tests
@@ -99,6 +132,44 @@ npm run test:safari
 # Edge testing
 npm run test:edge
 ```
+
+## 🐳 Docker Support
+
+### Quick Docker Commands
+
+```bash
+# Build and run smoke tests
+npm run docker:test
+
+# Build Docker image
+npm run docker:build
+
+# Run with custom test type
+docker run --rm qtec-testing npm run test:functional
+
+# Run with custom URL
+docker run --rm -e QTEC_URL=https://staging.qtecsolution.com qtec-testing npm run test:smoke
+```
+
+### Using Docker Scripts
+
+```bash
+# Linux/macOS
+./scripts/docker-test.sh -t smoke
+
+# Windows PowerShell
+.\scripts\docker-test.ps1 -TestType smoke
+```
+
+### Docker Benefits
+
+- **Consistent Environment**: Same testing environment across all machines
+- **Easy Setup**: No need to install Node.js, Playwright, or browsers locally
+- **CI/CD Integration**: Seamless integration with GitHub Actions
+- **Isolation**: Tests run in isolated containers
+- **Portability**: Run tests anywhere Docker is available
+
+For detailed Docker documentation, see [DOCKER-README.md](DOCKER-README.md).
 
 #### Advanced Test Execution
 
