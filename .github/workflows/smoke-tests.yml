@@ -2,20 +2,20 @@ name: Quick Smoke Tests
 
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 env:
-  NODE_VERSION: '18'
-  QTEC_STAGING_URL: 'https://staging.qtecsolution.com'
+  NODE_VERSION: "18"
+  QTEC_STAGING_URL: "https://staging.qtecsolution.com"
 
 jobs:
   smoke-tests:
     name: Run Smoke Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -60,12 +60,12 @@ jobs:
           script: |
             const fs = require('fs');
             let summary = '## 🚀 Smoke Test Results\n\n';
-            
+
             try {
               if (fs.existsSync('cucumber-report.json')) {
                 const report = JSON.parse(fs.readFileSync('cucumber-report.json', 'utf8'));
                 let total = 0, passed = 0, failed = 0;
-                
+
                 report.forEach(feature => {
                   feature.elements.forEach(scenario => {
                     total++;
@@ -74,11 +74,11 @@ jobs:
                     else passed++;
                   });
                 });
-                
+
                 summary += `- ✅ **Passed:** ${passed}\n`;
                 summary += `- ❌ **Failed:** ${failed}\n`;
                 summary += `- 📊 **Total:** ${total}\n\n`;
-                
+
                 if (failed > 0) {
                   summary += '⚠️ **Some tests failed!** Please check the detailed report.\n\n';
                 } else {
@@ -88,9 +88,9 @@ jobs:
             } catch (error) {
               summary += '❌ **Error parsing test results**\n\n';
             }
-            
+
             summary += `📋 [View Detailed Report](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
-            
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,

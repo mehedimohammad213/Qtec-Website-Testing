@@ -3,22 +3,22 @@ name: Production Deployment Pipeline
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Deployment environment'
+        description: "Deployment environment"
         required: true
-        default: 'staging'
+        default: "staging"
         type: choice
         options:
-        - staging
-        - production
+          - staging
+          - production
 
 env:
-  NODE_VERSION: '18'
-  QTEC_STAGING_URL: 'https://staging.qtecsolution.com'
-  QTEC_PROD_URL: 'https://qtecsolution.com'
+  NODE_VERSION: "18"
+  QTEC_STAGING_URL: "https://staging.qtecsolution.com"
+  QTEC_PROD_URL: "https://qtecsolution.com"
 
 jobs:
   # Pre-deployment Testing
@@ -27,8 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test-suite: [smoke, functional, ui-ux, responsive, performance, accessibility]
-    
+        test-suite:
+          [smoke, functional, ui-ux, responsive, performance, accessibility]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,7 +38,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -69,7 +70,7 @@ jobs:
     name: Security & Performance Tests
     runs-on: ubuntu-latest
     needs: [pre-deployment-tests]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -78,7 +79,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -115,7 +116,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [pre-deployment-tests, security-performance-tests]
     if: always()
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -124,7 +125,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -139,13 +140,13 @@ jobs:
           mkdir -p merged-results
           find test-artifacts -name "allure-results" -type d -exec cp -r {}/. merged-results/ \;
           find test-artifacts -name "test-results" -type d -exec cp -r {}/. merged-results/ \;
-          
+
           # Generate Allure report
           npm run report:generate
-          
+
           # Generate Cucumber report
           npm run test:format
-          
+
           # Create deployment summary
           echo "# Deployment Test Summary" > deployment-summary.md
           echo "Generated on: $(date)" >> deployment-summary.md
@@ -178,7 +179,7 @@ jobs:
     needs: [generate-reports]
     if: github.event.inputs.environment == 'staging' || github.event_name == 'push'
     environment: staging
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -217,7 +218,7 @@ jobs:
     needs: [deploy-staging, generate-reports]
     if: github.event.inputs.environment == 'production' || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
     environment: production
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -248,17 +249,17 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             ## 🚀 Production Deployment Complete
-            
+
             ### Test Results
             - Allure Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
             - Cucumber Report: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/cucumber-report.html
-            
+
             ### Deployment Details
             - **Version:** ${{ github.ref_name }}
             - **Commit:** ${{ github.sha }}
             - **Environment:** Production
             - **Status:** ✅ Success
-            
+
             ### What's New
             - Comprehensive test coverage
             - Automated CI/CD pipeline

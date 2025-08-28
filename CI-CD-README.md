@@ -29,12 +29,14 @@ The CI/CD pipeline automatically runs comprehensive tests on the QTEC website an
 ### 1. Main CI/CD Pipeline (`ci-cd-pipeline.yml`)
 
 **Triggers:**
+
 - Push to `main` or `develop` branches
 - Pull requests to `main` or `develop`
 - Daily scheduled runs (2 AM UTC)
 - Manual trigger with test type selection
 
 **Jobs:**
+
 - **Lint and Type Check**: Code quality validation
 - **Install Browsers**: Playwright browser setup
 - **Run Tests**: Matrix testing across browsers and test types
@@ -45,10 +47,12 @@ The CI/CD pipeline automatically runs comprehensive tests on the QTEC website an
 ### 2. Quick Smoke Tests (`smoke-tests.yml`)
 
 **Triggers:**
+
 - Pull requests
 - Push to main branches
 
 **Features:**
+
 - Fast feedback (15-minute timeout)
 - PR comments with test results
 - Quick validation before full pipeline
@@ -56,10 +60,12 @@ The CI/CD pipeline automatically runs comprehensive tests on the QTEC website an
 ### 3. Production Deployment (`production-deployment.yml`)
 
 **Triggers:**
-- Version tags (v*)
+
+- Version tags (v\*)
 - Manual deployment trigger
 
 **Jobs:**
+
 - **Pre-deployment Testing**: Comprehensive test suite
 - **Security & Performance**: Specialized testing
 - **Staging Deployment**: Deploy to staging environment
@@ -69,29 +75,32 @@ The CI/CD pipeline automatically runs comprehensive tests on the QTEC website an
 ### 4. Report Deployment (`deploy-reports.yml`)
 
 **Triggers:**
+
 - After main pipeline completion
 - Manual trigger
 
 **Features:**
+
 - Beautiful GitHub Pages dashboard
 - Centralized report access
 - Automatic updates
 
 ## 🧪 Test Categories
 
-| Category | Description | Tags |
-|----------|-------------|------|
-| **Smoke** | Critical functionality tests | `@smoke` |
-| **Functional** | Core business logic tests | `@functional` |
-| **UI/UX** | User interface and experience tests | `@ui-ux` |
-| **Responsive** | Mobile and tablet compatibility | `@responsive` |
-| **Performance** | Load time and performance tests | `@performance` |
-| **Accessibility** | WCAG compliance tests | `@accessibility` |
-| **Cross-browser** | Multi-browser compatibility | `@cross-browser` |
+| Category          | Description                         | Tags             |
+| ----------------- | ----------------------------------- | ---------------- |
+| **Smoke**         | Critical functionality tests        | `@smoke`         |
+| **Functional**    | Core business logic tests           | `@functional`    |
+| **UI/UX**         | User interface and experience tests | `@ui-ux`         |
+| **Responsive**    | Mobile and tablet compatibility     | `@responsive`    |
+| **Performance**   | Load time and performance tests     | `@performance`   |
+| **Accessibility** | WCAG compliance tests               | `@accessibility` |
+| **Cross-browser** | Multi-browser compatibility         | `@cross-browser` |
 
 ## 📊 Reports
 
 ### Allure Report
+
 - **Location**: GitHub Pages (`https://username.github.io/repo-name/`)
 - **Features**:
   - Interactive test execution timeline
@@ -101,6 +110,7 @@ The CI/CD pipeline automatically runs comprehensive tests on the QTEC website an
   - Historical trends
 
 ### Cucumber Report
+
 - **Location**: GitHub Pages (`https://username.github.io/repo-name/cucumber-report.html`)
 - **Features**:
   - BDD-style test results
@@ -109,6 +119,7 @@ The CI/CD pipeline automatically runs comprehensive tests on the QTEC website an
   - HTML and JSON formats
 
 ### GitHub Pages Dashboard
+
 - **Location**: `https://username.github.io/repo-name/`
 - **Features**:
   - Centralized access to all reports
@@ -135,17 +146,20 @@ npm run install:browsers
 ### 2. GitHub Repository Configuration
 
 #### Enable GitHub Pages
+
 1. Go to repository Settings → Pages
 2. Source: Deploy from a branch
 3. Branch: `gh-pages` (will be created automatically)
 4. Save
 
 #### Configure Environments (Optional)
+
 1. Go to repository Settings → Environments
 2. Create environments: `staging`, `production`
 3. Add protection rules if needed
 
 #### Set up Secrets (If needed)
+
 1. Go to repository Settings → Secrets and variables → Actions
 2. Add any required secrets for deployment
 
@@ -198,12 +212,12 @@ git push origin v1.0.0
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `QTEC_STAGING_URL` | Staging environment URL | `https://staging.qtecsolution.com` |
-| `QTEC_PROD_URL` | Production environment URL | `https://qtecsolution.com` |
-| `NODE_VERSION` | Node.js version | `18` |
-| `BROWSER` | Browser for testing | `chromium` |
+| Variable           | Description                | Default                            |
+| ------------------ | -------------------------- | ---------------------------------- |
+| `QTEC_STAGING_URL` | Staging environment URL    | `https://staging.qtecsolution.com` |
+| `QTEC_PROD_URL`    | Production environment URL | `https://qtecsolution.com`         |
+| `NODE_VERSION`     | Node.js version            | `18`                               |
+| `BROWSER`          | Browser for testing        | `chromium`                         |
 
 ### Customizing Test Execution
 
@@ -213,7 +227,7 @@ Edit `.github/workflows/ci-cd-pipeline.yml`:
 # Modify test matrix
 strategy:
   matrix:
-    test-type: 
+    test-type:
       - smoke
       - functional
       # Add/remove test types
@@ -231,22 +245,26 @@ strategy:
 ### Common Issues
 
 #### Tests Failing
+
 1. Check test logs in GitHub Actions
 2. Verify target URLs are accessible
 3. Check for environment-specific issues
 4. Review test data and selectors
 
 #### Reports Not Generating
+
 1. Ensure Allure is properly installed
 2. Check file permissions
 3. Verify artifact upload/download
 
 #### Pipeline Timeout
+
 1. Increase timeout in workflow files
 2. Optimize test execution
 3. Use parallel execution
 
 #### Browser Issues
+
 1. Verify Playwright browser installation
 2. Check browser compatibility
 3. Update Playwright version
@@ -277,12 +295,14 @@ npm run clean
 ## 📈 Monitoring and Analytics
 
 ### Pipeline Metrics
+
 - **Execution Time**: Track pipeline performance
 - **Success Rate**: Monitor test reliability
 - **Coverage**: Track test coverage trends
 - **Browser Compatibility**: Monitor cross-browser issues
 
 ### Report Analytics
+
 - **Test Trends**: Historical test results
 - **Performance Metrics**: Load time tracking
 - **Failure Analysis**: Common failure patterns
@@ -291,12 +311,14 @@ npm run clean
 ## 🔄 Continuous Improvement
 
 ### Best Practices
+
 1. **Regular Updates**: Keep dependencies updated
 2. **Test Maintenance**: Regularly review and update tests
 3. **Performance Monitoring**: Track test execution times
 4. **Documentation**: Keep documentation current
 
 ### Future Enhancements
+
 - [ ] Integration with external monitoring tools
 - [ ] Advanced performance testing
 - [ ] Mobile device testing
@@ -306,6 +328,7 @@ npm run clean
 ## 📞 Support
 
 For questions or issues:
+
 1. Check the troubleshooting section
 2. Review GitHub Actions logs
 3. Create an issue in the repository
