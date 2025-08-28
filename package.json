@@ -1,0 +1,89 @@
+{
+  "name": "playwright-cucumber-typescript",
+  "version": "1.0.0",
+  "description": "Playwright with Cucumber and Allure reporting for QTEC Website Testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:headed": "cucumber-js --headed",
+    "test:debug": "cucumber-js --debug",
+    "test:functional": "cucumber-js --tags '@functional'",
+    "test:ui-ux": "cucumber-js --tags '@ui-ux'",
+    "test:responsive": "cucumber-js --tags '@responsive'",
+    "test:performance": "cucumber-js --tags '@performance'",
+    "test:accessibility": "cucumber-js --tags '@accessibility'",
+    "test:cross-browser": "cucumber-js --tags '@cross-browser'",
+    "test:mobile": "cucumber-js --tags '@mobile'",
+    "test:desktop": "cucumber-js --tags '@desktop'",
+    "test:tablet": "cucumber-js --tags '@tablet'",
+    "test:chrome": "cucumber-js --tags '@chrome'",
+    "test:firefox": "cucumber-js --tags '@firefox'",
+    "test:safari": "cucumber-js --tags '@safari'",
+    "test:edge": "cucumber-js --tags '@edge'",
+    "test:all": "cucumber-js --tags 'not @skip'",
+    "test:smoke": "cucumber-js --tags '@smoke'",
+    "test:regression": "cucumber-js --tags '@regression'",
+    "test:critical": "cucumber-js --tags '@critical'",
+    "report:generate": "allure generate allure-results --clean",
+    "report:open": "allure open allure-report",
+    "report:serve": "allure serve allure-results",
+    "codegen": "playwright codegen",
+    "install:browsers": "playwright install",
+    "test:ui": "playwright test --ui",
+    "test:parallel": "cucumber-js --parallel 4",
+    "test:retry": "cucumber-js --retry 2",
+    "test:dry-run": "cucumber-js --dry-run",
+    "test:format": "cucumber-js --format summary --format html:cucumber-report.html",
+    "test:ci": "cucumber-js --format json:cucumber-report.json --format html:cucumber-report.html",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf test-results allure-results allure-report cucumber-report.html cucumber-report.json"
+  },
+  "keywords": [
+    "playwright",
+    "cucumber",
+    "typescript",
+    "allure",
+    "bdd",
+    "testing",
+    "automation",
+    "qtec",
+    "website",
+    "responsive",
+    "performance",
+    "accessibility"
+  ],
+  "author": "QA Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.1",
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "allure-commandline": "^2.24.1",
+    "allure-cucumberjs": "^2.9.0",
+    "dotenv": "^16.6.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "dependencies": {
+    "allure-playwright": "^3.3.3",
+    "playwright": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/qtec-website-testing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/qtec-website-testing/issues"
+  },
+  "homepage": "https://github.com/your-org/qtec-website-testing#readme"
+}

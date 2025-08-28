@@ -1,0 +1,93 @@
+Bug Report Template for QTEC Website Testing
+
+Sheet 1: Bug Summary
+Bug ID | Severity | Priority | Status | Assigned To | Created Date | Resolved Date
+-------|----------|----------|--------|-------------|--------------|---------------
+BUG-001 | High | High | Open | Developer | 2024-01-01 |
+BUG-002 | Medium | Medium | In Progress | Developer | 2024-01-01 |
+BUG-003 | Low | Low | Closed | Developer | 2024-01-01 | 2024-01-02
+
+Sheet 2: Detailed Bug Reports
+Bug ID | Title | Description | Steps to Reproduce | Expected Result | Actual Result | Environment | Browser | Device | Screenshot | Notes
+-------|------|-------------|-------------------|----------------|--------------|-------------|---------|--------|-----------|------
+BUG-001 | Navigation menu not responsive on mobile | Hamburger menu does not appear on mobile devices | 1. Open website on mobile device (375px width) 2. Check for hamburger menu | Hamburger menu should be visible | No hamburger menu found | Staging | Chrome | iPhone 12 | screenshot1.png | Critical for mobile users
+BUG-002 | Contact form validation not working | Form accepts invalid email addresses | 1. Navigate to contact page 2. Enter invalid email (test@) 3. Submit form | Form should show validation error | Form submits successfully | Staging | Firefox | Desktop | screenshot2.png | Affects data quality
+BUG-003 | Images not optimized for mobile | Large images causing slow loading on mobile | 1. Load website on mobile device 2. Check image loading time | Images should load within 2 seconds | Images take 5+ seconds to load | Staging | Safari | iPad | screenshot3.png | Performance issue
+
+Sheet 3: Test Results Summary
+Test Category | Total Tests | Passed | Failed | Skipped | Pass Rate
+--------------|-------------|--------|--------|---------|----------
+Functional Testing | 50 | 45 | 5 | 0 | 90%
+UI/UX Testing | 30 | 28 | 2 | 0 | 93%
+Responsive Testing | 40 | 35 | 5 | 0 | 88%
+Performance Testing | 25 | 20 | 5 | 0 | 80%
+Cross-Browser Testing | 35 | 32 | 3 | 0 | 91%
+Accessibility Testing | 20 | 18 | 2 | 0 | 90%
+
+Sheet 4: Performance Metrics
+Page | Load Time (s) | First Contentful Paint (s) | Largest Contentful Paint (s) | First Input Delay (ms) | Performance Score
+-----|---------------|---------------------------|----------------------------|----------------------|------------------
+Homepage | 2.5 | 1.2 | 3.1 | 45 | 85
+About Us | 2.8 | 1.5 | 3.5 | 52 | 82
+Contact Us | 3.2 | 1.8 | 4.2 | 68 | 78
+Services | 2.9 | 1.4 | 3.8 | 55 | 80
+
+Sheet 5: Browser Compatibility Matrix
+Feature | Chrome | Firefox | Safari | Edge | Mobile Chrome | Mobile Safari
+--------|--------|---------|--------|------|---------------|---------------
+Navigation | ✓ | ✓ | ✓ | ✓ | ✓ | ✓
+Forms | ✓ | ✓ | ✓ | ✓ | ✓ | ⚠
+Images | ✓ | ✓ | ✓ | ✓ | ⚠ | ⚠
+Animations | ✓ | ✓ | ⚠ | ✓ | ⚠ | ⚠
+Responsive Design | ✓ | ✓ | ✓ | ✓ | ⚠ | ⚠
+
+Legend: ✓ = Working, ⚠ = Issues, ✗ = Not Working
+
+Sheet 6: Responsive Design Issues
+Screen Size | Issues Found | Severity | Status
+------------|--------------|----------|--------
+320px (Mobile) | 3 | High | Open
+375px (Mobile) | 2 | Medium | In Progress
+414px (Mobile) | 1 | Low | Closed
+768px (Tablet) | 2 | Medium | Open
+1024px (Tablet) | 1 | Low | Open
+1366px (Desktop) | 0 | - | Passed
+1920px (Desktop) | 0 | - | Passed
+
+Sheet 7: Accessibility Issues
+WCAG Criteria | Issues Found | Severity | Impact | Status
+--------------|--------------|----------|--------|--------
+1.1.1 Non-text Content | 5 | Medium | Medium | Open
+1.3.1 Info and Relationships | 3 | Low | Low | Closed
+1.4.3 Contrast (Minimum) | 2 | High | High | Open
+2.1.1 Keyboard | 1 | High | High | Open
+2.4.1 Bypass Blocks | 0 | - | - | Passed
+2.4.2 Page Titled | 0 | - | - | Passed
+
+Sheet 8: Performance Issues
+Issue Type | Count | Impact | Priority | Status
+-----------|-------|--------|----------|--------
+Slow Image Loading | 8 | High | High | Open
+Large Bundle Size | 3 | Medium | Medium | In Progress
+Render Blocking Resources | 2 | Medium | Medium | Open
+Memory Leaks | 1 | High | High | Open
+Console Errors | 5 | Low | Low | Closed
+
+Sheet 9: Recommendations
+Category | Recommendation | Priority | Effort | Impact
+---------|----------------|----------|--------|--------
+Performance | Implement image lazy loading | High | Medium | High
+Performance | Minify CSS and JavaScript | High | Low | Medium
+Accessibility | Add alt text to all images | High | Low | High
+Responsive | Fix mobile navigation menu | High | Medium | High
+UI/UX | Improve form validation | Medium | Low | Medium
+Cross-Browser | Fix Safari-specific issues | Medium | Medium | Medium
+
+Sheet 10: Test Execution Log
+Date | Test Suite | Environment | Browser | Device | Results | Notes
+-----|-----------|-------------|---------|--------|---------|------
+2024-01-01 | Functional Tests | Staging | Chrome | Desktop | 45/50 Pass | 5 bugs found
+2024-01-01 | UI/UX Tests | Staging | Firefox | Desktop | 28/30 Pass | 2 UI issues
+2024-01-01 | Responsive Tests | Staging | Chrome | Mobile | 35/40 Pass | 5 responsive issues
+2024-01-01 | Performance Tests | Staging | Chrome | Desktop | 20/25 Pass | 5 performance issues
+2024-01-01 | Cross-Browser Tests | Staging | All | All | 32/35 Pass | 3 compatibility issues
