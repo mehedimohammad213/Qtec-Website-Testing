@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "total": 104,
+    "passed": 96,
+    "failed": 8,
+    "skipped": 0,
+    "duration": 182669546955768,
+    "successRate": 92.3076923076923,
+    "categories": {
+      "General": {
+        "total": 101,
+        "passed": 93,
+        "failed": 8
+      },
+      "Functional": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0
+      }
+    },
+    "priorities": {
+      "MEDIUM": {
+        "total": 101,
+        "passed": 93,
+        "failed": 8
+      },
+      "HIGH": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0
+      }
+    }
+  },
+  "generatedAt": "2025-08-29T03:27:04.733Z",
+  "metadata": {
+    "project": "QTEC Website Testing",
+    "version": "1.0.0",
+    "framework": "Playwright + Cucumber"
+  }
+}

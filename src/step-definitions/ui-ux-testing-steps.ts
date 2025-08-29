@@ -2,11 +2,14 @@ import { Given, When, Then, Before } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 import { QTECHomePage } from "../pages/QTECHomePage";
 import { TestData } from "../utils/TestData";
+import { CustomWorld } from "../support/world";
 
 let qtecHomePage: QTECHomePage;
 
-Before(async function () {
-  qtecHomePage = new QTECHomePage(this.page);
+Before(async function (this: CustomWorld) {
+  if (this.page) {
+    qtecHomePage = new QTECHomePage(this.page);
+  }
 });
 
 Given("I am on the QTEC solution website", async function () {
@@ -66,7 +69,7 @@ Then("there should be consistent spacing between elements", async function () {
   const spacing = await this.page.evaluate(() => {
     const elements = document.querySelectorAll("section, div");
     const spacings = [];
-    for (const element of elements) {
+    for (const element of Array.from(elements)) {
       const style = getComputedStyle(element);
       spacings.push({
         margin: style.margin,
@@ -255,7 +258,7 @@ Then(
     const responsiveFonts = await this.page.evaluate(() => {
       const elements = document.querySelectorAll("h1, h2, h3, p");
       const fontSizes = [];
-      for (const element of elements) {
+      for (const element of Array.from(elements)) {
         fontSizes.push(getComputedStyle(element).fontSize);
       }
       return fontSizes;
@@ -464,7 +467,7 @@ Then("animations should be subtle and not distracting", async function () {
   const animations = await this.page.evaluate(() => {
     const elements = document.querySelectorAll("*");
     const animatedElements = [];
-    for (const element of elements) {
+    for (const element of Array.from(elements)) {
       const style = getComputedStyle(element);
       if (style.animation || style.transition) {
         animatedElements.push(true);

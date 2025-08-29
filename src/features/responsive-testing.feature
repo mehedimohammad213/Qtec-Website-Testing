@@ -103,7 +103,7 @@ Feature: Responsive Design Testing - QTEC Website
   Scenario: Test responsive tables
     When I view tables on mobile screen
     Then tables should be scrollable horizontally
-    Or tables should stack vertically
+    And tables should stack vertically
     When I view tables on desktop screen
     Then tables should display in full format
 

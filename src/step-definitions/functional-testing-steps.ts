@@ -3,13 +3,16 @@ import { expect } from "@playwright/test";
 import { QTECHomePage } from "../pages/QTECHomePage";
 import { ContactFormPage } from "../pages/ContactFormPage";
 import { TestData } from "../utils/TestData";
+import { CustomWorld } from "../support/world";
 
 let qtecHomePage: QTECHomePage;
 let contactFormPage: ContactFormPage;
 
-Before(async function () {
-  qtecHomePage = new QTECHomePage(this.page);
-  contactFormPage = new ContactFormPage(this.page);
+Before(async function (this: CustomWorld) {
+  if (this.page) {
+    qtecHomePage = new QTECHomePage(this.page);
+    contactFormPage = new ContactFormPage(this.page);
+  }
 });
 
 Given("I am on the QTEC solution website", async function () {

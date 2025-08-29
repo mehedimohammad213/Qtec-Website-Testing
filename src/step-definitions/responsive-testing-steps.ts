@@ -2,11 +2,14 @@ import { Given, When, Then, Before } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 import { QTECHomePage } from "../pages/QTECHomePage";
 import { TestData } from "../utils/TestData";
+import { CustomWorld } from "../support/world";
 
 let qtecHomePage: QTECHomePage;
 
-Before(async function () {
-  qtecHomePage = new QTECHomePage(this.page);
+Before(async function (this: CustomWorld) {
+  if (this.page) {
+    qtecHomePage = new QTECHomePage(this.page);
+  }
 });
 
 Given("I am on the QTEC solution website", async function () {

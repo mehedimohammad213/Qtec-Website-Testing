@@ -4,16 +4,19 @@ import { QTECHomePage } from "../pages/QTECHomePage";
 import { ContactFormPage } from "../pages/ContactFormPage";
 import { OpenSourceFormPage } from "../pages/OpenSourceFormPage";
 import { TestData } from "../utils/TestData";
+import { CustomWorld } from "../support/world";
 
 let qtecHomePage: QTECHomePage;
 let contactFormPage: ContactFormPage;
 let openSourceFormPage: OpenSourceFormPage;
 let currentViewport: { width: number; height: number } | null = null;
 
-Before(async function () {
-  qtecHomePage = new QTECHomePage(this.page);
-  contactFormPage = new ContactFormPage(this.page);
-  openSourceFormPage = new OpenSourceFormPage(this.page);
+Before(async function (this: CustomWorld) {
+  if (this.page) {
+    qtecHomePage = new QTECHomePage(this.page);
+    contactFormPage = new ContactFormPage(this.page);
+    openSourceFormPage = new OpenSourceFormPage(this.page);
+  }
 });
 
 After(async function () {

@@ -2,11 +2,14 @@ import { Given, When, Then, Before } from "@cucumber/cucumber";
 import { expect } from "@playwright/test";
 import { QTECHomePage } from "../pages/QTECHomePage";
 import { TestData } from "../utils/TestData";
+import { CustomWorld } from "../support/world";
 
 let qtecHomePage: QTECHomePage;
 
-Before(async function () {
-  qtecHomePage = new QTECHomePage(this.page);
+Before(async function (this: CustomWorld) {
+  if (this.page) {
+    qtecHomePage = new QTECHomePage(this.page);
+  }
 });
 
 Given("I am on the QTEC solution website", async function () {
@@ -65,7 +68,9 @@ Then("the first input delay should be under 100ms", async function () {
     return new Promise((resolve) => {
       new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        const fidEntry = entries.find((entry) => entry.name === "first-input") as any;
+        const fidEntry = entries.find(
+          (entry) => entry.name === "first-input"
+        ) as any;
         if (fidEntry) {
           resolve((fidEntry as any).processingStart - fidEntry.startTime);
         }
@@ -498,7 +503,8 @@ When("I reload the website", async function () {
 Then("cached resources should load from cache", async function () {
   const cachedResources = await this.page.evaluate(() => {
     const resources = window.performance.getEntriesByType("resource");
-    return resources.filter((entry) => (entry as any).transferSize === 0).length; // Cached resources have 0 transfer size
+    return resources.filter((entry) => (entry as any).transferSize === 0)
+      .length; // Cached resources have 0 transfer size
   });
 
   expect(cachedResources).toBeGreaterThan(0);
@@ -622,7 +628,10 @@ Then("the battery usage should be reasonable", async function () {
 Then("the data usage should be optimized", async function () {
   const dataUsage = await this.page.evaluate(() => {
     const resources = window.performance.getEntriesByType("resource");
-    return resources.reduce((total, entry) => total + (entry as any).transferSize, 0);
+    return resources.reduce(
+      (total, entry) => total + (entry as any).transferSize,
+      0
+    );
   });
 
   expect(dataUsage).toBeLessThan(5000000); // Less than 5MB

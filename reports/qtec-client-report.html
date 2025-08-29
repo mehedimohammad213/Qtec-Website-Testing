@@ -1,0 +1,1393 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QTEC Website Testing Report - Client Summary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card.success {
+            border-left: 5px solid #28a745;
+        }
+        
+        .card.warning {
+            border-left: 5px solid #ffc107;
+        }
+        
+        .card.danger {
+            border-left: 5px solid #dc3545;
+        }
+        
+        .card.info {
+            border-left: 5px solid #17a2b8;
+        }
+        
+        .card h3 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .card p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.3s ease;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-passed { background-color: #28a745; }
+        .status-failed { background-color: #dc3545; }
+        .status-skipped { background-color: #ffc107; }
+        
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .category-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .category-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .test-list {
+            list-style: none;
+        }
+        
+        .test-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .test-item:last-child {
+            border-bottom: none;
+        }
+        
+        .test-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .test-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .priority-high { background-color: #dc3545; color: white; }
+        .priority-medium { background-color: #ffc107; color: #333; }
+        .priority-low { background-color: #28a745; color: white; }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            background: white;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 QTEC Website Testing Report</h1>
+            <p>Comprehensive Quality Assurance Summary</p>
+            <p><strong>Generated:</strong> 8/29/2025, 9:27:04 AM</p>
+        </div>
+
+        <div class="summary-cards">
+            <div class="card success">
+                <h3>96</h3>
+                <p>✅ Tests Passed</p>
+            </div>
+            <div class="card danger">
+                <h3>8</h3>
+                <p>❌ Tests Failed</p>
+            </div>
+            <div class="card info">
+                <h3>104</h3>
+                <p>📊 Total Tests</p>
+            </div>
+            <div class="card warning">
+                <h3>92.3%</h3>
+                <p>🎯 Success Rate</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92.3076923076923%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Overall Performance</h2>
+            <div class="category-grid">
+                <div class="category-item">
+                    <h4>⏱️ Test Duration</h4>
+                    <p><strong>Total Time:</strong> 50741540h 49m 15s</p>
+                    <p><strong>Average per Test:</strong> 487899h 25m 51s</p>
+                </div>
+                <div class="category-item">
+                    <h4>📅 Execution Time</h4>
+                    <p><strong>Started:</strong> 8/29/2025, 9:25:12 AM</p>
+                    <p><strong>Completed:</strong> 8/29/2025, 9:27:04 AM</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏷️ Test Categories</h2>
+            <div class="category-grid">
+                
+                    <div class="category-item">
+                        <h4>📋 General</h4>
+                        <p><strong>Total:</strong> 101 | <strong>Passed:</strong> 93 | <strong>Failed:</strong> 8</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92.07920792079209%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="category-item">
+                        <h4>🔧 Functional</h4>
+                        <p><strong>Total:</strong> 3 | <strong>Passed:</strong> 3 | <strong>Failed:</strong> 0</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ Priority Breakdown</h2>
+            <div class="category-grid">
+                
+                    <div class="category-item">
+                        <h4>🟡 MEDIUM Priority</h4>
+                        <p><strong>Total:</strong> 101 | <strong>Passed:</strong> 93 | <strong>Failed:</strong> 8</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92.07920792079209%"></div>
+                        </div>
+                    </div>
+                
+                    <div class="category-item">
+                        <h4>🔴 HIGH Priority</h4>
+                        <p><strong>Total:</strong> 3 | <strong>Passed:</strong> 3 | <strong>Failed:</strong> 0</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔍 Detailed Test Results</h2>
+            <div class="category-grid">
+                
+                    <div class="category-item">
+                        <h4>📋 General</h4>
+                        <ul class="test-list">
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test main navigation menu
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test mobile navigation (hamburger menu)
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test all internal links
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test external links
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test contact form with valid data
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test contact form with invalid data
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test email validation in forms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test email validation in forms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test email validation in forms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test email validation in forms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test search functionality
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test footer links
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test call-to-action buttons
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test error handling
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test homepage load performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test page load performance on different devices
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test navigation performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test image optimization
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test lazy loading
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test image loading performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test CSS and JavaScript loading
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test third-party resource loading
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test for console errors
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test for console warnings
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test network requests
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test caching effectiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test memory usage
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test CPU usage
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test mobile performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test accessibility performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test performance across browsers
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test performance across browsers
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test performance across browsers
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test performance across browsers
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Monitor performance metrics
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Complete website navigation and form submission
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test individual navigation flows
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test form submissions with different data
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test navigation to different services
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test navigation to different services
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test navigation to different services
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test navigation to different services
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test navigation to different services
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test social media links
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Verify page layout and element alignment
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test button states and interactions
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Verify form validation messages
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive design on different screen sizes
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test cross-browser compatibility
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test cross-browser compatibility
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test cross-browser compatibility
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test cross-browser compatibility
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test page load performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test website accessibility
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test mobile responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test mobile responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test mobile responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test tablet responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test tablet responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test desktop responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test desktop responsiveness
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test mobile navigation menu
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test tablet navigation
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test desktop navigation
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive images
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive typography
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive forms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive buttons
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive tables
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive grid layouts
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive spacing
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test responsive performance
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test consistent functionality across devices
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search using page object pattern
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search for different technologies
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search for Cucumber BDD
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Basic web search
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search with special characters
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search for different terms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search for different terms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-failed"></span>
+                                        Search for different terms
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    <div style="color: #dc3545; font-size: 0.8em; margin-top: 5px;">Error: Error: function timed out, ensure the promise resolves within 5000 milliseconds
+    at Timeout.<anonymous> (D:\DOWNLOAD\test\node_modules\@cucumber\cucumber\src\time.ts:52:14)
+    at listOnTimeout (node:internal/timers:569:17)
+    at processTimers (node:internal/timers:512:7)</div>
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Verify visual consistency
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test element alignment and spacing
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test button visual states
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test form field styling
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Verify image quality and optimization
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test video and media content
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Verify typography consistency
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test color accessibility
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test page layout structure
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test user flow and navigation
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test loading states and feedback
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Verify content presentation
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test dropdown menus and modals
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Test smooth animations
+                                        <span class="priority-badge priority-medium">MEDIUM</span>
+                                    </div>
+                                    <div class="test-description">General website testing</div>
+                                    
+                                </li>
+                            
+                        </ul>
+                    </div>
+                
+                    <div class="category-item">
+                        <h4>🔧 Functional</h4>
+                        <ul class="test-list">
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Homepage loads successfully
+                                        <span class="priority-badge priority-high">HIGH</span>
+                                    </div>
+                                    <div class="test-description">Verifies core website functionality and user workflows</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Basic navigation works
+                                        <span class="priority-badge priority-high">HIGH</span>
+                                    </div>
+                                    <div class="test-description">Verifies core website functionality and user workflows</div>
+                                    
+                                </li>
+                            
+                                <li class="test-item">
+                                    <div class="test-name">
+                                        <span class="status-indicator status-passed"></span>
+                                        Contact form is accessible
+                                        <span class="priority-badge priority-high">HIGH</span>
+                                    </div>
+                                    <div class="test-description">Verifies core website functionality and user workflows</div>
+                                    
+                                </li>
+                            
+                        </ul>
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📧 For technical details, please contact the QA team</p>
+            <p>🔄 This report was automatically generated by the QTEC Testing Framework</p>
+        </div>
+    </div>
+</body>
+</html>
