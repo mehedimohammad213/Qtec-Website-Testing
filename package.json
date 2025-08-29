@@ -24,8 +24,8 @@
     "test:smoke": "cucumber-js --tags '@smoke'",
     "test:regression": "cucumber-js --tags '@regression'",
     "test:critical": "cucumber-js --tags '@critical'",
-    "report:generate": "allure generate allure-results --clean",
-    "report:open": "allure open allure-report",
+    "report:generate": "node scripts/generate-reports.js",
+    "report:open": "start reports/qtec-client-report.html",
     "report:serve": "allure serve allure-results",
     "codegen": "playwright codegen",
     "install:browsers": "playwright install",
@@ -35,9 +35,7 @@
     "test:dry-run": "cucumber-js --dry-run",
     "test:format": "cucumber-js --format summary --format html:cucumber-report.html",
     "test:ci": "cucumber-js --format json:cucumber-report.json --format html:cucumber-report.html",
-    "report:generate": "node scripts/generate-reports.js",
     "report:demo": "node scripts/generate-reports.js && start reports/sample-client-report.html",
-    "report:open": "start reports/qtec-client-report.html",
     "report:dashboard": "start reports/dashboard.html",
     "lint": "eslint src/**/*.ts --ext .ts",
     "lint:fix": "eslint src/**/*.ts --ext .ts --fix",
@@ -80,7 +78,8 @@
   },
   "dependencies": {
     "allure-playwright": "^3.3.3",
-    "playwright": "^1.40.0"
+    "playwright": "^1.40.0",
+    "puppeteer": "^24.17.1"
   },
   "engines": {
     "node": ">=16.0.0",
